@@ -38,7 +38,6 @@ find_package(catkin REQUIRED COMPONENTS
   roscpp
   tf2
   tf2_ros
-  nodelet
   sensor_msgs
 )
 
@@ -58,8 +57,7 @@ link_directories(
 )
 
 catkin_package(
-  CATKIN_DEPENDS roscpp nodelet sensor_msgs
-  LIBRARIES snap_dfs_nodelet
+  CATKIN_DEPENDS roscpp sensor_msgs
 )
 
 include_directories(
@@ -78,13 +76,6 @@ target_link_libraries(snap_dfs
   mv1
 )
 
-add_library(snap_dfs_nodelet src/nodes/SnapdragonDfsRos_nodelet.cpp src/nodes/SnapdragonDfsRos.cpp)
-target_link_libraries(snap_dfs_nodelet
-  snap_dfs
-  ${catkin_LIBRARIES}
-)
-target_include_directories( snap_dfs_nodelet PRIVATE src/nodes/ )
-
 add_executable(snap_dfs_node src/nodes/SnapdragonDfsRos_node.cpp src/nodes/SnapdragonDfsRos.cpp)
 target_link_libraries(snap_dfs_node
   snap_dfs
@@ -99,7 +90,7 @@ COMMAND sudo chown root ${CATKIN_DEVEL_PREFIX}/lib/snap_dfs/snap_dfs_node
 COMMAND sudo chmod +s ${CATKIN_DEVEL_PREFIX}/lib/snap_dfs/snap_dfs_node
 )
 
-install(TARGETS snap_dfs_node snap_dfs snap_dfs_nodelet
+install(TARGETS snap_dfs_node snap_dfs
   ARCHIVE DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   LIBRARY DESTINATION ${CATKIN_PACKAGE_LIB_DESTINATION}
   RUNTIME DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
@@ -110,7 +101,4 @@ install(DIRECTORY launch/
 
 install(DIRECTORY config/
   DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}/config
-)
-install(FILES snap_dfs_nodelet.xml
-  DESTINATION ${CATKIN_PACKAGE_SHARE_DESTINATION}
 )
