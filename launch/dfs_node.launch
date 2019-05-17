@@ -38,12 +38,12 @@
   <!-- ============== arg declarations =============== -->
 
   <arg name="param_filename" default="$(find snap_dfs)/config/dfs_test.yaml"/>
-  <arg name="namespace_name" default="stereo"/>
+  <arg name="namespace_name" default="/firefly/vi_sensor"/>
   
   <group ns="$(arg namespace_name)">
     <node pkg="snap_dfs" name="snap_dfs" type="snap_dfs_node" cwd="node" output="screen" respawn="false">
       <rosparam command="load" file="$(arg param_filename)" />
-      <param name="camera_frame_id" value="camera_link" />
+      <param name="camera_frame_id" value="firefly/base_link" />
     </node>
   </group>
 

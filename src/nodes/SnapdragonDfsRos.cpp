@@ -334,8 +334,8 @@ void Snapdragon::DfsRosNode::CameraCallback(const sensor_msgs::ImageConstPtr& im
   pub_depth_image_.publish(depth_msg_);
 
   // uncomment the following lines for debug
-  //ROS_INFO_STREAM("Snapdragon::DfsRosNode: center pixel disparity = " << disp_image[(height_-ros_params_.crop)/2*width_+(width_-ros_params_.crop)/2]);
-  //ROS_INFO_STREAM("Snapdragon::DfsRosNode: center pixel depth = " << depth_image[(height_-ros_params_.crop)/2*width_+(width_-ros_params_.crop)/2]);
+  ROS_INFO_STREAM("Snapdragon::DfsRosNode: center pixel disparity = " << disp_image[(height_-ros_params_.crop)/2*width_+(width_-ros_params_.crop)/2]);
+  ROS_INFO_STREAM("Snapdragon::DfsRosNode: center pixel depth = " << depth_image[(height_-ros_params_.crop)/2*width_+(width_-ros_params_.crop)/2]);
 
   // publish depth camera Camera Info
   depth_info_.header = header_;
@@ -363,9 +363,9 @@ void Snapdragon::DfsRosNode::DepthCallback(const sensor_msgs::ImageConstPtr& ima
   for(int32_t i = ros_params_.crop; i < height_-ros_params_.crop; i++)
     for(int32_t j = ros_params_.crop; j < width_-ros_params_.crop; j++) {
       float32_t d = depth_array[i*width_+j];
-      dfs_point.x = d*(j - cx) / fx;
-      dfs_point.y = d*(i - cy) / fy;
-      dfs_point.z = d;
+      dfs_point.y = -d*(j - cx) / fx;
+      dfs_point.z = -d*(i - cy) / fy;
+      dfs_point.x = d;
       point_cloud_msg.points.push_back(dfs_point);
     }
 
