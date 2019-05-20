@@ -270,7 +270,7 @@ int32_t Snapdragon::DfsRosNode::Initialize()
   pub_disparity_ = nh_.advertise<stereo_msgs::DisparityImage>("dfs/disparity_image",10);
   pub_depth_image_ = nh_.advertise<sensor_msgs::Image>("dfs/depth/image_raw",10);
   pub_depth_info_ = nh_.advertise<sensor_msgs::CameraInfo>("dfs/depth/camera_info",10);
-  pub_point_cloud_ = nh_.advertise<sensor_msgs::PointCloud>("dfs/point_cloud",10);
+  pub_point_cloud_ = nh_.advertise<sensor_msgs::PointCloud2>("dfs/point_cloud",10);
 
   // set up ROS subscribers
   image_sub_l_ = new message_filters::Subscriber<sensor_msgs::Image>(nh_, "left/image_raw", 1);
@@ -369,7 +369,9 @@ void Snapdragon::DfsRosNode::DepthCallback(const sensor_msgs::ImageConstPtr& ima
       point_cloud_msg.points.push_back(dfs_point);
     }
 
-  pub_point_cloud_.publish(point_cloud_msg);
+  sensor_msgs::PointCloud2 point_cloud2_msg;
+  sensor_msgs::convertPointCloudToPointCloud2(point_cloud_msg, point_cloud2_msg);
+  pub_point_cloud_.publish(point_cloud2_msg);
 
 }
 

@@ -46,6 +46,8 @@
 #include <sensor_msgs/Image.h>
 #include <sensor_msgs/CameraInfo.h>
 #include <sensor_msgs/PointCloud.h>
+#include <sensor_msgs/PointCloud2.h>
+#include <sensor_msgs/point_cloud_conversion.h>
 #include <sensor_msgs/image_encodings.h>
 #include <sensor_msgs/ChannelFloat32.h>
 #include <stereo_msgs/DisparityImage.h>
